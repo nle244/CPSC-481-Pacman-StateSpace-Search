@@ -87,38 +87,45 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+##    print("Start:", problem.getStartState())
+##    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+##    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     path = list()
     visited = list()
     unvisited = util.Stack()
     
     visited.append(problem.getStartState())
 
-    for each in visited:
-        for i in problem.getSuccessors(each):
+##    for each in visited:
+##        for i in problem.getSuccessors(each):
+##            unvisited.push(i)
+    for i in problem.getSuccessors(visited[0]):
+        if i not in visited:
             unvisited.push(i)
             
     while not (unvisited.isEmpty()):
         temp = unvisited.pop()
-        print("current temp: ",temp)
+        visited.append(temp)
         path.append(temp[1])
-        print("current path: ", path)
-        print("if goal state: ", problem.isGoalState(temp[0]))
-        if problem.isGoalState(temp[0]):
+        print("Exploring path: ", path)
+        print("Current node: ",temp)
+        
+        if problem.isGoalState(temp[0]):  ##if we found the goal return
+            print("Found the goal!")
             return path
         else:
-##            print("current successors: ",problem.getSuccessors(temp[0]))
+            print("did not find goal...")
             if not (problem.getSuccessors(temp[0])):
-                path.pop()
-                print("no successors")
+                removed = path.pop()
+                print("no successors. removed: ",removed)
             else:
+                print("Found successors... adding unvisited nodes.")
                 for i in problem.getSuccessors(temp[0]):
-                    unvisited.push(i)
-                    print("Adding: ",i)
+                    if i not in visited:  ##only add if we haven't been there before
+                        unvisited.push(i)
+                        print("Adding: ",i)
         
-    return path
+    return []
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
