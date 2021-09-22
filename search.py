@@ -87,42 +87,77 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-##    print("Start:", problem.getStartState())
-##    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-##    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-    print("==========        Beginning DFS        ==========")
-    path = list()
+    path = []
     visited = list()
     unvisited = util.Stack()
     unvisitedList = list()
-    
-##    visited.append(problem.getStartState())
-    unvisited.push(problem.getStartState())
+
+    start = problem.getStartState()
+    unvisited.push(start)
 
     while unvisited:
         currentNode = unvisited.pop()
-        print("currentNode: ",currentNode)
-
-        visited.append(currentNode[0])
+        print("Current node: ",currentNode[0])
         print("visited: ",visited)
-        if not (currentNode == visited[0]): ##if the currentNode is not the starting point 
+        if bool(visited):
             path.append(currentNode[1])
 
-        if problem.isGoalState(currentNode[0]): 
+        if problem.isGoalState(currentNode[0]):
+            print("Path found! Returning: ",path)
             return path
         else:
-            print("Goal not found... searching for children")
-            if problem.getSuccessors(currentNode[0]):  ##if there are children add them
-                print("Children found...")
-                for node in problem.getSuccessors(currentNode[0]):
-                    if node[0] not in visited:
-                        print("Adding: ",node)
-                        unvisited.push(node)
-            else:   ##if there are no successors path is a dead end
-                print("No children found, removing dead end.")
-                path.pop() 
+            print("Goal not found... looking for children.")
+            visited.append(currentNode[0])
+            getChildren = False
+            temp = problem.getSuccessors(currentNode[0])
+            for node in temp:
+                if node[0] not in visited:
+                    getChildren = True
+                    unvisited.push(node)
+                    print("Children found... adding: ",node)
+            if not getChildren:
+                print("No children found... removing dead end.")
+                path.pop()
+            
+    return [] ##if the loop ends there is no valid path
 
-    return [] ##if we make it out of the loop there is no path
+    
+##    visited.append(problem.getStartState())
+##    unvisited.push(problem.getStartState())
+##
+##    while unvisited:
+##        currentNode = unvisited.pop()
+##        print("currentNode: ",currentNode)
+##
+##        visited.append(currentNode[0])
+##        print("visited: ",visited)
+##         ##if the currentNode is not the starting point 
+##            path.append(currentNode[1])
+##            print("path: ",path)
+##
+##        if problem.isGoalState(currentNode[0]): 
+##            return path
+##        else:
+##            getChildren = list()
+##            for node in problem.getSuccessors(currentNode[0]):
+##                if node[0] not in visited:
+##                    print("Adding: ",node)
+##                    unvisited.push(node)
+##            if not getChildren:
+##                print("No children found, removing dead end.")
+##                path.pop()
+##            print("Goal not found... searching for children")
+##            if problem.getSuccessors(currentNode[0]):  ##if there are children add them
+##                print("Children found...")
+##                for node in problem.getSuccessors(currentNode[0]):
+##                    if node[0] not in visited:
+##                        print("Adding: ",node)
+##                        unvisited.push(node)
+##            else:   ##if there are no successors path is a dead end
+##                print("No children found, removing dead end.")
+##                path.pop() 
+
+##    return [] ##if we make it out of the loop there is no path
     
     
 ####    for each in visited:
