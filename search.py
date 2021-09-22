@@ -90,42 +90,83 @@ def depthFirstSearch(problem):
 ##    print("Start:", problem.getStartState())
 ##    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
 ##    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+    print("==========        Beginning DFS        ==========")
     path = list()
     visited = list()
     unvisited = util.Stack()
+    unvisitedList = list()
     
-    visited.append(problem.getStartState())
+##    visited.append(problem.getStartState())
+    unvisited.push(problem.getStartState())
 
-##    for each in visited:
-##        for i in problem.getSuccessors(each):
-##            unvisited.push(i)
-    for i in problem.getSuccessors(visited[0]):
-        if i not in visited:
-            unvisited.push(i)
-            
-    while not (unvisited.isEmpty()):
-        temp = unvisited.pop()
-        visited.append(temp)
-        path.append(temp[1])
-        print("Exploring path: ", path)
-        print("Current node: ",temp)
-        
-        if problem.isGoalState(temp[0]):  ##if we found the goal return
-            print("Found the goal!")
+    while unvisited:
+        currentNode = unvisited.pop()
+        print("currentNode: ",currentNode)
+
+        visited.append(currentNode[0])
+        print("visited: ",visited)
+        if not (currentNode == visited[0]): ##if the currentNode is not the starting point 
+            path.append(currentNode[1])
+
+        if problem.isGoalState(currentNode[0]): 
             return path
         else:
-            print("did not find goal...")
-            if not (problem.getSuccessors(temp[0])):
-                removed = path.pop()
-                print("no successors. removed: ",removed)
-            else:
-                print("Found successors... adding unvisited nodes.")
-                for i in problem.getSuccessors(temp[0]):
-                    if i not in visited:  ##only add if we haven't been there before
-                        unvisited.push(i)
-                        print("Adding: ",i)
-        
-    return []
+            print("Goal not found... searching for children")
+            if problem.getSuccessors(currentNode[0]):  ##if there are children add them
+                print("Children found...")
+                for node in problem.getSuccessors(currentNode[0]):
+                    if node[0] not in visited:
+                        print("Adding: ",node)
+                        unvisited.push(node)
+            else:   ##if there are no successors path is a dead end
+                print("No children found, removing dead end.")
+                path.pop() 
+
+    return [] ##if we make it out of the loop there is no path
+    
+    
+####    for each in visited:
+####        for i in problem.getSuccessors(each):
+####            unvisited.push(i)
+##    print("Adding children of first node")
+##    for node in problem.getSuccessors(visited[0]):
+##        print("Child node: ",node)
+##        if node not in visited:
+##            ##print("Adding: ",node)
+##            unvisited.push(node)
+##            unvisitedList.append(node)
+##
+##    while unvisited:
+##        currentNode = unvisited.pop()
+##        visited.append(currentNode[0])
+##        path.append(currentNode[1]) ##add to the path
+####        print("Unvisited List: ",unvisitedList)
+####        print("Visited: ",visited)
+##        print("Exploring path: ", path)
+##        print("Current node: ",currentNode)
+##        
+##        if problem.isGoalState(currentNode[0]):  ##if we found the goal return
+##            print("Found the goal!")
+##            return path
+##        else:
+##            print("did not find goal...")
+##            print("Checking for successors: ",problem.getSuccessors(currentNode[0]))
+##            if not (problem.getSuccessors(currentNode[0])): ##if there are no successors this is a dead end so remove from path
+##                removed = path.pop()
+##                print("no successors. removed: ",removed)
+##            else:
+##                print("Found successors... adding unvisited nodes.")
+##                for node in problem.getSuccessors(currentNode[0]):
+##                    print("i: ",node[0])
+##                    print("visited: ",visited)
+##                    print("unvisitedList: ",unvisitedList)
+##                    print("i not in visited and i not in unvisitedList: ",node[0] not in visited and node not in unvisitedList)
+##                    if node[0] not in visited and node not in unvisitedList:  ##only add if we haven't been there before
+##                        unvisited.push(node)
+##                        unvisitedList.append(node)
+##                        print("Adding: ",node)
+##        
+##    return []
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
