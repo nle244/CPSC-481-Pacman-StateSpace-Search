@@ -23,7 +23,6 @@ class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
     any of the methods (in object-oriented terminology: an abstract class).
-
     You do not need to change anything in this class, ever.
     """
 
@@ -36,7 +35,6 @@ class SearchProblem:
     def isGoalState(self, state):
         """
           state: Search state
-
         Returns True if and only if the state is a valid goal state.
         """
         util.raiseNotDefined()
@@ -44,7 +42,6 @@ class SearchProblem:
     def getSuccessors(self, state):
         """
           state: Search state
-
         For a given state, this should return a list of triples, (successor,
         action, stepCost), where 'successor' is a successor to the current
         state, 'action' is the action required to get there, and 'stepCost' is
@@ -55,7 +52,6 @@ class SearchProblem:
     def getCostOfActions(self, actions):
         """
          actions: A list of actions to take
-
         This method returns the total cost of a particular sequence of actions.
         The sequence must be composed of legal moves.
         """
@@ -75,59 +71,83 @@ def tinyMazeSearch(problem):
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
-
     Your search algorithm needs to return a list of actions that reaches the
     goal. Make sure to implement a graph search algorithm.
-
     To get started, you might want to try some of these simple commands to
     understand the search problem that is being passed in:
-
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    path = []
-    visited = list()
-    unvisited = util.Stack()
-    unvisitedList = list()
+    # I just re wrote it again because for some reason in programming, it's always 
+    # easier to write code than to read it, so it was easier to just reattempt it
+    visited = []
+    stack = util.Stack()
+    stack.push((problem.getStartState(), []))
+    while not stack.isEmpty():
+        temp = stack.pop()
+        if problem.isGoalState(temp[0]):
+            return temp[1]
+        if temp[0] in visited:
+            # return control back to the beginning of the loop
+            continue
+        visited.append(temp[0])
+        for node in problem.getSuccessors(temp[0]):
+            if node[0] in visited:
+                # return control
+                continue
+            stack.push((node[0], temp[1] + [node[1]]))
+    util.raiseNotDefined()
 
-    start = problem.getStartState()
 
-    ##unvisited.push(start)
-    if problem.isGoalState(start):  ##if the start is the goal, there is no path
-        return path
+
+# the previous code is down below
+
+
+
+
+#     path = []
+#     visited = list()
+#     unvisited = util.Stack()
+#     unvisitedList = list()
+
+#     start = problem.getStartState()
+
+#     ##unvisited.push(start)
+#     if problem.isGoalState(start):  ##if the start is the goal, there is no path
+#         return path
     
-    visited.append(start)
-    for node in problem.getSuccessors(start):
-        if node[0] not in visited:
-            unvisited.push(node)
+#     visited.append(start)
+#     for node in problem.getSuccessors(start):
+#         if node[0] not in visited:
+#             unvisited.push(node)
             
-    while unvisited:
-        currentNode = unvisited.pop()
-##        print("Current node: ",currentNode)
-##        print("visited: ",visited)
-       ## if bool(visited): ## if visited is empty, no path to append
-        path.append(currentNode[1])
+#     while unvisited:
+#         currentNode = unvisited.pop()
+# ##        print("Current node: ",currentNode)
+# ##        print("visited: ",visited)
+#        ## if bool(visited): ## if visited is empty, no path to append
+#         path.append(currentNode[1])
 
-        if problem.isGoalState(currentNode[0]):
-##            print("Path found! Returning: ",path)
-            return path
-        else:
-##            print("Goal not found... looking for children.")
-            visited.append(currentNode[0])
-            getChildren = False
-            for node in problem.getSuccessors(currentNode[0]):
-##                print("node: ",node)
-                if node[0] not in visited:
-                    getChildren = True
-                    unvisited.push(node)
-##                    print("Children found... adding: ",node)
-            if not getChildren:
-##                print("No children found... removing dead end.")
-                path.pop()
+#         if problem.isGoalState(currentNode[0]):
+# ##            print("Path found! Returning: ",path)
+#             return path
+#         else:
+# ##            print("Goal not found... looking for children.")
+#             visited.append(currentNode[0])
+#             getChildren = False
+#             for node in problem.getSuccessors(currentNode[0]):
+# ##                print("node: ",node)
+#                 if node[0] not in visited:
+#                     getChildren = True
+#                     unvisited.push(node)
+# ##                    print("Children found... adding: ",node)
+#             if not getChildren:
+# ##                print("No children found... removing dead end.")
+#                 path.pop()
             
-    return [] ##if the loop ends there is no valid path
+#     return [] ##if the loop ends there is no valid path
 
     
 ##    visited.append(problem.getStartState())
