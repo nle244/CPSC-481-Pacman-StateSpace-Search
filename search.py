@@ -80,10 +80,28 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    # I just re wrote it again because for some reason in programming, it's always 
-    # easier to write code than to read it, so it was easier to just reattempt it
     visited = []
     stack = util.Stack()
+    stack.push((problem.getStartState(), []))
+    while not stack.isEmpty():
+        temp = stack.pop()
+        if problem.isGoalState(temp[0]):
+            return temp[1]
+        if temp[0] in visited:
+            # return control back to the beginning of the loop
+            continue
+        visited.append(temp[0])
+        for node in problem.getSuccessors(temp[0]):
+            if node[0] in visited:
+                continue # return control
+            stack.push((node[0], temp[1] + [node[1]]))
+    util.raiseNotDefined()
+
+def breadthFirstSearch(problem):
+    """Search the shallowest nodes in the search tree first."""
+    "*** YOUR CODE HERE ***"
+    visited = []
+    stack = util.Queue()
     stack.push((problem.getStartState(), []))
     while not stack.isEmpty():
         temp = stack.pop()
@@ -100,143 +118,6 @@ def depthFirstSearch(problem):
             stack.push((node[0], temp[1] + [node[1]]))
     util.raiseNotDefined()
 
-
-
-# the previous code is down below
-
-
-
-
-#     path = []
-#     visited = list()
-#     unvisited = util.Stack()
-#     unvisitedList = list()
-
-#     start = problem.getStartState()
-
-#     ##unvisited.push(start)
-#     if problem.isGoalState(start):  ##if the start is the goal, there is no path
-#         return path
-    
-#     visited.append(start)
-#     for node in problem.getSuccessors(start):
-#         if node[0] not in visited:
-#             unvisited.push(node)
-            
-#     while unvisited:
-#         currentNode = unvisited.pop()
-# ##        print("Current node: ",currentNode)
-# ##        print("visited: ",visited)
-#        ## if bool(visited): ## if visited is empty, no path to append
-#         path.append(currentNode[1])
-
-#         if problem.isGoalState(currentNode[0]):
-# ##            print("Path found! Returning: ",path)
-#             return path
-#         else:
-# ##            print("Goal not found... looking for children.")
-#             visited.append(currentNode[0])
-#             getChildren = False
-#             for node in problem.getSuccessors(currentNode[0]):
-# ##                print("node: ",node)
-#                 if node[0] not in visited:
-#                     getChildren = True
-#                     unvisited.push(node)
-# ##                    print("Children found... adding: ",node)
-#             if not getChildren:
-# ##                print("No children found... removing dead end.")
-#                 path.pop()
-            
-#     return [] ##if the loop ends there is no valid path
-
-    
-##    visited.append(problem.getStartState())
-##    unvisited.push(problem.getStartState())
-##
-##    while unvisited:
-##        currentNode = unvisited.pop()
-##        print("currentNode: ",currentNode)
-##
-##        visited.append(currentNode[0])
-##        print("visited: ",visited)
-##         ##if the currentNode is not the starting point 
-##            path.append(currentNode[1])
-##            print("path: ",path)
-##
-##        if problem.isGoalState(currentNode[0]): 
-##            return path
-##        else:
-##            getChildren = list()
-##            for node in problem.getSuccessors(currentNode[0]):
-##                if node[0] not in visited:
-##                    print("Adding: ",node)
-##                    unvisited.push(node)
-##            if not getChildren:
-##                print("No children found, removing dead end.")
-##                path.pop()
-##            print("Goal not found... searching for children")
-##            if problem.getSuccessors(currentNode[0]):  ##if there are children add them
-##                print("Children found...")
-##                for node in problem.getSuccessors(currentNode[0]):
-##                    if node[0] not in visited:
-##                        print("Adding: ",node)
-##                        unvisited.push(node)
-##            else:   ##if there are no successors path is a dead end
-##                print("No children found, removing dead end.")
-##                path.pop() 
-
-##    return [] ##if we make it out of the loop there is no path
-    
-    
-##    for each in visited:
-##        for i in problem.getSuccessors(each):
-##            unvisited.push(i)
-##    visited.append(problem.getStartState())
-##    print("Adding children of first node")
-##    for node in problem.getSuccessors(visited[0]):
-##        print("Child node: ",node)
-##        if node not in visited:
-##            ##print("Adding: ",node)
-##            unvisited.push(node)
-##            unvisitedList.append(node)
-##
-##    while unvisited:
-##        currentNode = unvisited.pop()
-##        visited.append(currentNode[0])
-##        path.append(currentNode[1]) ##add to the path
-####        print("Unvisited List: ",unvisitedList)
-####        print("Visited: ",visited)
-##        print("Exploring path: ", path)
-##        print("Current node: ",currentNode)
-##        
-##        if problem.isGoalState(currentNode[0]):  ##if we found the goal return
-##            print("Found the goal!")
-##            return path
-##        else:
-##            print("did not find goal...")
-##            print("Checking for successors: ",problem.getSuccessors(currentNode[0]))
-##            if not (problem.getSuccessors(currentNode[0])): ##if there are no successors this is a dead end so remove from path
-##                removed = path.pop()
-##                print("no successors. removed: ",removed)
-##            else:
-##                print("Found successors... adding unvisited nodes.")
-##                for node in problem.getSuccessors(currentNode[0]):
-##                    print("i: ",node[0])
-##                    print("visited: ",visited)
-##                    print("unvisitedList: ",unvisitedList)
-##                    print("i not in visited and i not in unvisitedList: ",node[0] not in visited and node not in unvisitedList)
-##                    if node[0] not in visited and node not in unvisitedList:  ##only add if we haven't been there before
-##                        unvisited.push(node)
-##                        unvisitedList.append(node)
-##                        print("Adding: ",node)
-##        
-##    return []
-    util.raiseNotDefined()
-
-def breadthFirstSearch(problem):
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
