@@ -295,6 +295,7 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
+        # Set up state space with an array
         cornersVisited = []
         return (self.startingPosition, cornersVisited)
 
@@ -334,9 +335,13 @@ class CornersProblem(search.SearchProblem):
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
             nextPosition = (nextx, nexty)
+            # Checks whether a wall has been hit or not
             if hitsWall != True:
+                # If it is not a wall we check to see if it is a corner
                 if nextPosition in self.corners:
+                    # If it is a corner, we check if it has been visited in the corner list
                     if(nextPosition not in cornersVisited):
+                        # if it is not in the list, update the list and append the successor
                         newCornerVisited = cornersVisited + [(nextx, nexty)]
                         successors.append(((nextPosition, newCornerVisited), action, 1))
                 else:
