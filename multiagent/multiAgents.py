@@ -15,7 +15,7 @@
 from util import manhattanDistance
 from game import Directions
 import random, util
-
+import sys
 from game import Agent
 
 class ReflexAgent(Agent):
@@ -74,6 +74,11 @@ class ReflexAgent(Agent):
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
         "*** YOUR CODE HERE ***"
+        print(newFood.asList())
+        nearest = sys.maxsize
+        for food in newFood.asList():
+            nearest = min(nearest, manhattanDistance(newPos, food))
+
         for num, ghost_state in enumerate(newGhostStates):
             ghost_dist = manhattanDistance(newPos,ghost_state.getPosition())
             if(ghost_dist <= 1):
