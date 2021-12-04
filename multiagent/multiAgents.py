@@ -74,6 +74,13 @@ class ReflexAgent(Agent):
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
         "*** YOUR CODE HERE ***"
+        for num, ghost_state in enumerate(newGhostStates):
+            ghost_dist = manhattanDistance(newPos,ghost_state.getPosition())
+            if(ghost_dist <= 1):
+                return float("-inf")
+
+        
+
         return successorGameState.getScore()
 
 def scoreEvaluationFunction(currentGameState):
