@@ -80,22 +80,22 @@ class ReflexAgent(Agent):
         currentFood = currentGameState.getFood()                # Holds the current food being targeted
         foodList = currentFood.asList()                         # Puts all food into a list
 		
-		# Gets distance to each food in the list and exits with the minimum distance needed
+	# Gets distance to each food in the list and exits with the minimum distance needed
         for i in range(len(foodList)):
             distance =  (manhattanDistance(foodList[i], position))
             if distance < minDistance:
                 minDistance = distance				
 		
-		# If a ghost has been hit, then return with negative score
+	# If a ghost has been hit, then return with negative score
         for state in newGhostStates:
             if state.scaredTimer == 0 and state.getPosition() == tuple(position):
                 return -999999999
 				
-		# If we hit Stop, then return with negative score		
+	# If we hit Stop, then return with negative score		
         if action == 'Stop':
             return -999999999				
 				
-		# Get invernse of the minimum distance		
+	# Get invernse of the minimum distance		
         minDistance = -minDistance
 			
         return minDistance
